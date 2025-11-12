@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sierpiński–Conway Lambda Notation (SCLN) — Googology</title>
+  <meta name="description" content="Sierpiński–Conway Lambda Notation (SCLN): definition, multilambda, alphabetic escalation, formal recursive definition and position in the Fast-Growing Hierarchy." />
+  <meta property="og:title" content="Sierpiński–Conway Lambda Notation (SCLN)" />
+  <meta property="og:description" content="Definition, formal recursive formula and FGH position of Sierpiński–Conway Lambda Notation — ideal for a Googology repository." />
+  <meta property="og:type" content="article" />
+  <meta name="theme-color" content="#0b1020" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:wght@700;900&display=swap" rel="stylesheet">
+
+  <!-- Basic modern styling -->
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card:#0f1724;
+      --muted:#9aa4b2;
+      --accent:#8b5cf6; /* violet */
+      --glass: rgba(255,255,255,0.03);
+      --maxw:980px;
+      --radius:14px;
+      color-scheme: dark;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,#05060a 0%, #0b1020 100%);
+      color:#e6eef8;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.55;
+      padding:28px;
+      display:flex;
+      justify-content:center;
+    }
+    .wrap{
+      width:100%;
+      max-width:var(--maxw);
+    }
+    header{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      margin-bottom:20px;
+    }
+    .logo{
+      width:64px;
+      height:64px;
+      background:linear-gradient(135deg,var(--accent),#06b6d4);
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      font-family:"Merriweather", serif;
+      box-shadow: 0 6px 30px rgba(11,16,32,0.6), inset 0 -2px 8px rgba(0,0,0,0.25);
+    }
+    .logo span{color:white; font-size:22px; letter-spacing:0.6px;}
+    h1{
+      margin:0;
+      font-family:"Merriweather", serif;
+      font-weight:700;
+      font-size:22px;
+      color:#fff;
+    }
+    .meta{ color:var(--muted); font-size:13px; margin-top:4px; }
+
+    main.card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--radius);
+      padding:28px;
+      box-shadow: 0 10px 40px rgba(2,6,23,0.6);
+      border: 1px solid rgba(255,255,255,0.03);
+      backdrop-filter: blur(6px);
+    }
+    nav.toc{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+    nav.toc a{
+      color:var(--accent);
+      text-decoration:none;
+      background:var(--glass);
+      padding:8px 12px;
+      border-radius:10px;
+      font-size:13px;
+    }
+    section{ margin-bottom:22px; }
+    h2{ font-size:18px; margin:8px 0 12px; color:#fff; }
+    p{ margin:8px 0; color:#d6e6fb; }
+    .lead{ color:var(--muted); font-size:15px; margin-bottom:6px; }
+    hr.sep{ border:0; height:1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent); margin:18px 0; }
+
+    /* code and equations */
+    pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace; font-size:13px; }
+    .math-block{
+      background: rgba(255,255,255,0.02);
+      padding:12px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.02);
+      margin:12px 0;
+      overflow:auto;
+    }
+
+    table {
+      width:100%;
+      border-collapse:collapse;
+      margin-top:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+      border-radius:10px;
+      overflow:hidden;
+      font-size:14px;
+    }
+    thead th{
+      text-align:left;
+      padding:12px 14px;
+      background: rgba(255,255,255,0.02);
+      color:#fff;
+      font-weight:600;
+    }
+    tbody td{
+      padding:12px 14px;
+      color:#d6e6fb;
+      border-top:1px solid rgba(255,255,255,0.02);
+    }
+    tbody tr:nth-child(odd){ background: rgba(255,255,255,0.01); }
+
+    footer{ margin-top:18px; color:var(--muted); font-size:13px; display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;}
+    .btn{
+      display:inline-block;
+      background:linear-gradient(90deg,var(--accent),#06b6d4);
+      color:white;
+      padding:8px 12px;
+      border-radius:10px;
+      text-decoration:none;
+      font-weight:600;
+      box-shadow: 0 6px 18px rgba(11,16,32,0.5);
+    }
+
+    @media (max-width:720px){
+      body{padding:16px;}
+      header{gap:10px;}
+      .logo{width:52px;height:52px;}
+    }
+  </style>
+
+  <!-- MathJax v3 config -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(','\\)']],
+        displayMath: [['\\[','\\]']],
+        packages: {'[+]': ['ams']}
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" defer></script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo" aria-hidden="true"><span>SCLN</span></div>
+      <div>
+        <h1>Sierpiński–Conway Lambda Notation (SCLN)</h1>
+        <div class="meta">Definition, formal recursive formula and position in the Fast-Growing Hierarchy — Googology</div>
+      </div>
+    </header>
+
+    <main class="card" role="main" aria-labelledby="main-title">
+      <nav class="toc" aria-label="Table of contents">
+        <a href="#etymology">Etymology</a>
+        <a href="#definition">Definition</a>
+        <a href="#multilambda">Multilambda</a>
+        <a href="#alphabetic">Alphabetic Hierarchy</a>
+        <a href="#formal">Formal Definition</a>
+        <a href="#growth">Growth &amp; FGH</a>
+        <a href="#see-also">See Also</a>
+      </nav>
+
+      <section id="etymology">
+        <h2>Etymology</h2>
+        <p class="lead">The notation commemorates two mathematicians whose work inspired its structure.</p>
+        <p>The name of this googologic notation honors two mathematicians: <strong>Wacław Sierpiński</strong> (Poland) and <strong>John H. Conway</strong> (United Kingdom), both of whom made deep contributions to mathematical logic, set theory, and large number notations. The notation combines the iterative spirit of <strong>Sierpiński’s transfinite constructions</strong> with <strong>Conway’s chained-arrow operations</strong>.</p>
+        <hr class="sep" />
+      </section>
+
+      <section id="definition">
+        <h2>Definition</h2>
+        <p class="lead">Core operator: the lambda prefix encoding Conway chained arrows.</p>
+        <p>To introduce this notation, we begin with the <strong>lambda operator</strong>. Placing the symbol <strong>λ</strong> before a natural number \( n \) defines an operation based on Conway’s arrow notation:</p>
+
+        <div class="math-block">
+          \[
+            \lambda n = n \rightarrow n \rightarrow n \rightarrow \cdots \rightarrow n
+            \quad (\text{n times})
+          \]
+        </div>
+
+        <p>That is, \( \lambda n \) represents the Conway chained-arrow operation applied <strong>n times</strong> to the number \( n \) itself.</p>
+        <hr class="sep" />
+      </section>
+
+      <section id="multilambda">
+        <h2>Multilambda Operation</h2>
+        <p class="lead">Stacking lambdas to obtain auto-iterative growth.</p>
+        <p>We define a higher-level operator by stacking lambdas:</p>
+
+        <div class="math-block">
+          \[
+            \lambda \lambda n = \lambda (\text{n times})\, n
+          \]
+        </div>
+
+        <p>This <strong>Multilambda Operation</strong> grows vastly faster than the simple λ-operation, representing <em>self-iteration of λ applied n times</em>.</p>
+        <hr class="sep" />
+      </section>
+
+      <section id="alphabetic">
+        <h2>Alphabetic Hierarchy</h2>
+        <p class="lead">Generalize with Greek-letter indexed meta-iterations.</p>
+        <p>To generalize the notation, we introduce a recursive family of functions using <strong>Greek letters</strong>. The first level is defined as:</p>
+
+        <div class="math-block">
+          \[
+            \omega(n) = \lambda (\text{n times})\, n
+          \]
+        </div>
+
+        <p>Then we extend this with a secondary parameter to represent repeated iteration:</p>
+
+        <div class="math-block">
+          \[
+            \omega(n, m) = \omega^{(m)}(n)
+          \]
+        </div>
+
+        <p>where \( \omega^{(m)} \) denotes <em>m iterations of ω applied to n</em>. This process can be further generalized:</p>
+
+        <div class="math-block">
+          \[
+            \omega(n, m, a) = \left( \omega^{(m)}(n) \right)^{(a)}
+          \]
+        </div>
+
+        <p>so that each new variable introduces an additional <strong>meta-iterative layer</strong>.</p>
+        <hr class="sep" />
+      </section>
+
+      <section id="alphabetic-escalation">
+        <h2>Alphabetic Escalation</h2>
+        <p class="lead">Advancing letters creates higher auto-iteration degrees.</p>
+        <p>By advancing through the Greek alphabet — from \( \omega \) to \( \alpha \), \( \beta \), \( \gamma \), and beyond — each successive letter introduces a <strong>higher self-iterative degree</strong> of the previous operation. Thus, SCLN defines a transfinite-like hierarchy of hyperoperations, where every new Greek letter represents a function whose growth rate transcends all those before it.</p>
+        <hr class="sep" />
+      </section>
+
+      <section id="formal">
+        <h2>Formal Recursive Definition</h2>
+        <p class="lead">A compact recursive template that anchors the notation.</p>
+
+        <div class="math-block">
+          \[
+            f_0(n) = n
+          \]
+        </div>
+
+        <div class="math-block">
+          \[
+            f_{k+1}(n) = f_k(n) \rightarrow^{(n)} f_k(n)
+          \]
+        </div>
+
+        <p>Here \( \rightarrow^{(n)} \) denotes <em>n nested Conway arrows</em>. From this we obtain:</p>
+
+        <div class="math-block">
+          \[
+            \boxed{
+            \lambda n = f_n(n),
+            \quad
+            \lambda \lambda n = f_n^{(n)}(n),
+            \quad
+            \omega(n, m) = f_n^{(m)}(n)
+            }
+          \]
+        </div>
+
+        <p>For the general alphabetic hierarchy we may write:</p>
+
+        <div class="math-block">
+          \[
+            \Omega_{\alpha}(n_1, n_2, \ldots, n_k) =
+            \Omega_{\alpha-1}^{(n_k)}(n_1, n_2, \ldots, n_{k-1})
+          \]
+        </div>
+
+        <p>where \( \alpha \) represents a Greek index corresponding to the current hierarchical depth.</p>
+        <hr class="sep" />
+      </section>
+
+      <section id="growth">
+        <h2>Growth Rate and Position in the Fast-Growing Hierarchy</h2>
+        <p class="lead">How SCLN maps onto standard fast-growing levels (heuristic correspondences).</p>
+
+        <table aria-label="SCLN to FGH correspondence">
+          <thead>
+            <tr>
+              <th>SCLN Symbol</th>
+              <th>Equivalent Growth Level</th>
+              <th>Corresponding FGH Function</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>\( \lambda 1 \)</td>
+              <td>Exponential growth</td>
+              <td>\( F_2(n) \)</td>
+            </tr>
+            <tr>
+              <td>\( \lambda 2 \)</td>
+              <td>Tetrational growth</td>
+              <td>\( F_4(n) \)</td>
+            </tr>
+            <tr>
+              <td>\( \lambda 3 \)</td>
+              <td>Pentational growth</td>
+              <td>\( F_5(n) \)</td>
+            </tr>
+            <tr>
+              <td>\( \lambda n \)</td>
+              <td>n-level hyperoperations</td>
+              <td>\( F_{n+2}(n) \)</td>
+            </tr>
+            <tr>
+              <td>\( \lambda\lambda n \)</td>
+              <td>Self-iterating λ</td>
+              <td>\( F_{\omega}(n) \)</td>
+            </tr>
+            <tr>
+              <td>\( \omega(n, m) \)</td>
+              <td>Transfinite iteration</td>
+              <td>\( F_{\omega \cdot m}(n) \)</td>
+            </tr>
+            <tr>
+              <td>Alphabetic escalation (ω, α, β, …)</td>
+              <td>Recursive meta-iterations</td>
+              <td>up to \( F_{\varepsilon_0} \) and \( F_{\Gamma_0} \)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>Therefore, the <strong>Sierpiński–Conway Lambda Notation</strong> spans from the finite hyperoperation range all the way into transordinal levels of the Fast-Growing Hierarchy.</p>
+
+        <div class="math-block" aria-hidden="false">
+          \[
+            \boxed{
+            \text{SCLN can represent functions reaching from } F_{\varepsilon_0}
+            \text{ up to (and potentially beyond) } F_{\Gamma_0}.
+            }
+          \]
+        </div>
+
+        <hr class="sep" />
+      </section>
+
+      <section id="see-also">
+        <h2>See Also</h2>
+        <ul>
+          <li><a class="btn" href="https://en.wikipedia.org/wiki/Conway_chained_arrow_notation" target="_blank" rel="noopener">Conway’s Chained-Arrow Notation</a></li>
+          <li style="display:inline-block;margin-left:10px;"><a href="https://en.wikipedia.org/wiki/Knuth%27s_up-arrow_notation" target="_blank" rel="noopener">Knuth Up-Arrow Notation</a></li>
+          <li style="display:inline-block;margin-left:10px;"><a href="https://en.wikipedia.org/wiki/Fast-growing_hierarchy" target="_blank" rel="noopener">Fast-Growing Hierarchy</a></li>
+          <li style="display:inline-block;margin-left:10px;"><a href="https://www.googology.net" target="_blank" rel="noopener">Googology and Hyperoperation Theory</a></li>
+        </ul>
+      </section>
+
+      <footer>
+        <div>© <strong>Googology</strong> — SCLN page</div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <a class="btn" href="#" onclick="window.print();return false;">Print</a>
+          <a style="color:var(--muted); text-decoration:none;" href="#top">Top ↑</a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Optional small script: enable shallow-scroll to hash links with smooth behavior -->
+  <script>
+    (function(){
+      if('scrollBehavior' in document.documentElement.style){
+        document.documentElement.style.scrollBehavior = 'smooth';
+      }
+      // quick accessible focus for hash links
+      document.querySelectorAll('a[href^="#"]').forEach(a=>{
+        a.addEventListener('click', (e)=>{
+          const id = a.getAttribute('href').slice(1);
+          const el = document.getElementById(id);
+          if(el){ el.setAttribute('tabindex','-1'); el.focus({preventScroll:true}); }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
