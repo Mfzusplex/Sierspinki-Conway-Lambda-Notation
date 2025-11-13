@@ -133,4 +133,5 @@ It serves as a generalized self-iterative notation — concise, elegant, and ext
 
 ---
 
-© 2025 — Sierpiński–Conway Lambda Notation Project
+© 2025 — Sierpiński–Conway Lambda Notation
+
